@@ -10,9 +10,7 @@ import {getPin, setPin} from '../service/api';
 
 
 const Show=()=> {
-
-
-
+  
   const [newPlace, setNewPlace] = useState(null);
   const [title, setTitle] = useState(null);
   const [desc, setDesc] = useState(null);
@@ -40,7 +38,6 @@ const Show=()=> {
   
 
   const handlePlace =(e)=>{
-   
     const lng = e.lngLat.lng;
     const lat = e.lngLat.lat;
    
@@ -83,9 +80,10 @@ const Show=()=> {
          
    
    {
-                place.map((p)=>(
+                place.map((p)=>(  
                  
                   <>
+                  key={p._id}
                   <Marker longitude={p.long} latitude={p.lat}
                   offsetLeft={-40}
                   offsetTop={-10}
@@ -100,7 +98,7 @@ const Show=()=> {
                    <Popup longitude={p.long} latitude={p.lat}
                  
                    anchor="left"
-                   key={p._id}
+                 
                    
                    closeButton={true}
                    closeOnClick={false}
@@ -130,6 +128,7 @@ const Show=()=> {
                    )}
                     
                </>
+              
                
             ))}
             
