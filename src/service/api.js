@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'http://localhost:5000';
+const url = 'https://mern-map-server.vercel.app';
 
 export const setPin = async(data)=>{
     try{

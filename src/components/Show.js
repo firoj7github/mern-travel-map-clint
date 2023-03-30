@@ -3,35 +3,41 @@ import ReactMapGL, {Marker} from 'react-map-gl';
 import {Popup} from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import RoomIcon from '@mui/icons-material/Room';
+import Room from '@mui/icons-material/Room';
 import StarIcon from '@mui/icons-material/Star';
 import "./Show.css";
-import { getPin, setPin} from '../service/api';
+import {getPin, setPin} from '../service/api';
 
 
 const Show=()=> {
+
+
 
   const [newPlace, setNewPlace] = useState(null);
   const [title, setTitle] = useState(null);
   const [desc, setDesc] = useState(null);
   const [star, setStar] = useState(0);
-  const [sets, setPins] = useState();
+  const [place, setPlace] = useState([]);
+  
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
+
+  useEffect(()=>{
+    const getPinDetails = async()=>{
+           const data = await getPin();
+           console.log(data);
+           setPlace(data);
+    }
+    getPinDetails();
+},[])
 
 
   const handleMarkerClick = (id) => {
     setCurrentPlaceId(id);
+   
     
   };
   
-  useEffect(()=>{
-    const getPinDetails = async()=>{
-           let data = await getPin();
-           console.log(data);
-           setPins(data);
-    }
-    getPinDetails();
-},[])
+  
 
   const handlePlace =(e)=>{
     console.log(e);
@@ -54,6 +60,7 @@ const Show=()=> {
       long: newPlace.lng,
     };
          await setPin (newPin);
+         setNewPlace(null);
     };
 
   
@@ -62,7 +69,7 @@ const Show=()=> {
 
       
         <div>
-        
+       
         <ReactMapGL mapLib={maplibregl} 
         initialViewState={{
           longitude:19.145136,
@@ -70,58 +77,70 @@ const Show=()=> {
           zoom: 4}}
         style={{width: "100vw", height: "100vh"}}
         mapStyle="https://api.maptiler.com/maps/streets/style.json?key=oioW0B2pQ82IuArmBrc3"
-        onClick={handlePlace} 
+        onDblClick={handlePlace} 
         >
+         
+         
    
-   {  sets.map(pin => (
-    <>
-   <Marker longitude={pin.long} latitude={pin.lat}
-   offsetLeft={-40}
-   offsetTop={-10}
-   anchor="top" >
-      <RoomIcon style={{fontSize:50, cursor:"pointer"}}
-       onClick={() => handleMarkerClick(pin._id, pin.lat, pin.long)}
-      />
+   {
+                place.map((p)=>(
+                  <>
+                  <Marker longitude={p.long} latitude={p.lat}
+                  offsetLeft={-40}
+                  offsetTop={-10}
+                  anchor="top" >
+                     <Room style={{fontSize:37, cursor: "pointer",   color:"tomato"}}
+                      onClick={() => handleMarkerClick(p._id, p.lat, p.long)}
+                     />
+                     
+                   </Marker>
+                   {p._id === currentPlaceId && (
+                   <Popup longitude={p.long} latitude={p.lat}
+                   key={p._id}
+                   anchor="left"
+                
+                   style={{zIndex:1}}
+                   closeButton={true}
+                   closeOnClick={false}
+                   onClose={() => setCurrentPlaceId(null)}
+                   >
+                   <div className="card">
+                             <label>Place</label>
+                             <h4 className="place">{p.title}</h4>
+                             <label>Review</label>
+                             <p className="desc">{p.desc}</p>
+                             <label>Rating</label>
+                             <div className="stars">
+                               <StarIcon/>
+                               <StarIcon/>
+                               <StarIcon/>
+                               <StarIcon/>
+                               <StarIcon/>
+                             </div>
+                             <label>Information</label>
+                             <span className="username">
+                               Created by <b>Firoj Hossain</b>
+                             </span>
+                             <br/>
+                             <span className="date">1 hour ago</span>
+                           </div>
+                 </Popup>
+                   )}
+                    
+               </>
+               
+            ))}
+            
       
-    </Marker>
-    {pin._id === currentPlaceId && (
-    <Popup longitude={pin.long} latitude={pin.lat}
-    anchor="bottom"
-    closeButton={true}
-    closeOnClick={false}
-    >
-    <div className="card">
-              <label>Place</label>
-              <h4 className="place">{pin.title}</h4>
-              <label>Review</label>
-              <p className="desc">{pin.desc}</p>
-              <label>Rating</label>
-              <div className="stars">
-                <StarIcon/>
-                <StarIcon/>
-                <StarIcon/>
-                <StarIcon/>
-                <StarIcon/>
-              </div>
-              <label>Information</label>
-              <span className="username">
-                Created by <b>Firoj Hossain</b>
-              </span>
-              <br/>
-              <span className="date">1 hour ago</span>
-            </div>
-  </Popup>
-     )}
-</>
- ))} 
+    
       
     
       {newPlace && (
         <><Marker longitude={newPlace.lng} latitude={newPlace.lat}
         offsetLeft={-40}
         offsetTop={-10}
-         anchor="top" >
-              <RoomIcon style={{fontSize:50, cursor:"pointer"}}/>
+         anchor="left" >
+              <Room style={{fontSize:37, cursor: "pointer"}}/>
               
             </Marker>
             <Popup
