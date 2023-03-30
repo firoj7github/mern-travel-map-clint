@@ -40,10 +40,10 @@ const Show=()=> {
   
 
   const handlePlace =(e)=>{
-    console.log(e);
+   
     const lng = e.lngLat.lng;
     const lat = e.lngLat.lat;
-    console.log(lng);
+   
     setNewPlace({
       lng,
       lat
@@ -95,13 +95,13 @@ const Show=()=> {
                      />
                      
                    </Marker>
-                   key={p._id}
+                   
                    {p._id === currentPlaceId && (
                    <Popup longitude={p.long} latitude={p.lat}
                  
                    anchor="left"
-                
-                   style={{zIndex:1}}
+                   key={p._id}
+                   
                    closeButton={true}
                    closeOnClick={false}
                    onClose={() => setCurrentPlaceId(null)}
