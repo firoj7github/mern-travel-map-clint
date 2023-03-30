@@ -22,7 +22,6 @@ const Show=()=> {
   useEffect(()=>{
     const getPinDetails = async()=>{
            const data = await getPin();
-           console.log(data);
            setPlace(data);
     }
     getPinDetails();
