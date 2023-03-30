@@ -84,6 +84,7 @@ const Show=()=> {
    
    {
                 place.map((p)=>(
+                 
                   <>
                   <Marker longitude={p.long} latitude={p.lat}
                   offsetLeft={-40}
@@ -94,9 +95,10 @@ const Show=()=> {
                      />
                      
                    </Marker>
+                   key={p._id}
                    {p._id === currentPlaceId && (
                    <Popup longitude={p.long} latitude={p.lat}
-                   key={p._id}
+                 
                    anchor="left"
                 
                    style={{zIndex:1}}
