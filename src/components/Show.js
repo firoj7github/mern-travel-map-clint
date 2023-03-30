@@ -72,7 +72,7 @@ const Show=()=> {
           latitude: 51.919437,
           zoom: 4}}
         style={{width: "100vw", height: "100vh"}}
-        mapStyle="https://api.maptiler.com/maps/streets/style.json?key=  oioW0B2pQ82IuArmBrc3"
+        mapStyle="https://api.maptiler.com/maps/streets/style.json?key=oioW0B2pQ82IuArmBrc3"
         onDblClick={handlePlace} 
         >
          
@@ -94,7 +94,7 @@ const Show=()=> {
                    <Popup longitude={p.long} latitude={p.lat}
                  
                    anchor="left"
-                 
+                   key={p._id}
                    
                    closeButton={true}
                    closeOnClick={false}
