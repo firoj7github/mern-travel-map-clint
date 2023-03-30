@@ -80,11 +80,8 @@ const Show=()=> {
          
    
    {
-                place.map((p)=>(  
-                 
-                  <>
-               
-                  <Marker longitude={p.long} latitude={p.lat}
+                place.map((p)=>( <>
+               <Marker longitude={p.long} latitude={p.lat}
                   offsetLeft={-40}
                   offsetTop={-10}
                   anchor="top" >
